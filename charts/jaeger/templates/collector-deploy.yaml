@@ -147,6 +147,11 @@ spec:
       dnsPolicy: {{ .Values.collector.dnsPolicy }}
       restartPolicy: Always
       volumes:
+      {{- if .Values.storage.cassandra.tls.enabled }}
+        - name: {{ .Values.storage.cassandra.tls.secretName }}
+          secret:
+            secretName: {{ .Values.storage.cassandra.tls.secretName }}
+      {{- end }}
       {{- range .Values.collector.extraConfigmapMounts }}
         - name: {{ .name }}
           configMap:
